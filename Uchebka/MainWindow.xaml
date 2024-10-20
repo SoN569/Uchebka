@@ -1,0 +1,22 @@
+﻿<Window x:Class="Uchebka.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Uchebka"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="750" Width="1300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="300*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Image Source="/Resources/Logo_Color_Transparent.png" />
+            <TextBlock></TextBlock>
+            
+        </StackPanel>
+        <Button Margin="30" Grid.Row="0" HorizontalAlignment="Right" Height="40">Выход</Button>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="1"></Frame>
+    </Grid>
+</Window>
