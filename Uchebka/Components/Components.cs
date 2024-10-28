@@ -25,13 +25,12 @@ namespace Uchebka.Components
         public Nullable<int> IdUnit { get; set; }
         public Nullable<int> Count { get; set; }
         public string SupplierName { get; set; }
-        public Nullable<int> IdComponentsImage { get; set; }
+        public byte[] ComImage { get; set; }
         public Nullable<int> IdTypeComponents { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> Weight { get; set; }
         public Nullable<int> IdWarehouse { get; set; }
     
-        public virtual ComponentsImage ComponentsImage { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual TypeComponents TypeComponents { get; set; }
         public virtual Unit Unit { get; set; }

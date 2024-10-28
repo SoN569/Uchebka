@@ -14,10 +14,18 @@ namespace Uchebka.Components
     
     public partial class Equipment
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Equipment()
+        {
+            this.BreakdownEq = new HashSet<BreakdownEq>();
+        }
+    
         public string Model { get; set; }
         public Nullable<int> IdTypeEquipment { get; set; }
         public string Characteristic { get; set; }
     
         public virtual TypeEquipment TypeEquipment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BreakdownEq> BreakdownEq { get; set; }
     }
 }

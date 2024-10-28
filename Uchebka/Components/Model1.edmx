@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище UchebkaModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BreakdownEq">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IdEquipment" Type="nvarchar" MaxLength="50" />
+          <Property Name="TimeStart" Type="datetime" />
+          <Property Name="TimeEnd" Type="datetime" />
+          <Property Name="IdReason" Type="int" />
+        </EntityType>
         <EntityType Name="Components">
           <Key>
             <PropertyRef Name="Article" />
@@ -14,27 +24,19 @@
           <Property Name="IdUnit" Type="int" />
           <Property Name="Count" Type="int" />
           <Property Name="SupplierName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="IdComponentsImage" Type="int" />
+          <Property Name="ComImage" Type="varbinary(max)" />
           <Property Name="IdTypeComponents" Type="int" />
           <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
           <Property Name="Weight" Type="decimal" Precision="10" Scale="4" />
           <Property Name="IdWarehouse" Type="int" />
         </EntityType>
-        <EntityType Name="ComponentsImage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Photo" Type="varbinary(max)" />
-        </EntityType>
-        <EntityType Name="Document">
+        <EntityType Name="DocOrder">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
-          <Property Name="Format" Type="nvarchar" MaxLength="10" />
-          <Property Name="IdOrder" Type="int" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="IdOrder" Type="nchar" MaxLength="12" />
         </EntityType>
         <EntityType Name="Equipment">
           <Key>
@@ -43,6 +45,15 @@
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IdTypeEquipment" Type="int" />
           <Property Name="Characteristic" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="HistoryStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="TimeOrder" Type="time" Precision="1" />
+          <Property Name="IdOrder" Type="nchar" MaxLength="12" />
+          <Property Name="IdStatus" Type="int" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -53,20 +64,13 @@
           <Property Name="IdUnit" Type="int" />
           <Property Name="Count" Type="int" />
           <Property Name="SupplierName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="IdMaterialImage" Type="int" />
+          <Property Name="MatImage" Type="varbinary(max)" />
           <Property Name="IdTypeMaterial" Type="int" />
           <Property Name="PriceOneKg" Type="decimal" Precision="10" Scale="2" />
           <Property Name="IdStandart" Type="int" />
           <Property Name="WidthMetr" Type="decimal" Precision="10" Scale="2" />
           <Property Name="MassOneMetr" Type="decimal" Precision="12" Scale="5" />
           <Property Name="IdWarehouse" Type="int" />
-        </EntityType>
-        <EntityType Name="MaterialImage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Photo" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Operation">
           <Key>
@@ -91,7 +95,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="nchar" MaxLength="12" Nullable="false" />
           <Property Name="DateOrder" Type="date" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="IdProduct" Type="int" />
@@ -99,6 +103,7 @@
           <Property Name="LoginManager" Type="nvarchar" MaxLength="100" />
           <Property Name="Amount" Type="decimal" Precision="10" Scale="2" />
           <Property Name="DateEnd" Type="date" />
+          <Property Name="IdStatus" Type="int" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -134,6 +139,13 @@
           <Property Name="MaterialArticle" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="Count" Type="decimal" Precision="10" Scale="2" Nullable="false" />
         </EntityType>
+        <EntityType Name="ReasonBreakdown">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="Id" />
@@ -145,7 +157,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="SizeValue" Type="decimal" Precision="10" Scale="2" />
           <Property Name="IdUnit" Type="int" />
@@ -157,6 +169,13 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -224,7 +243,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Photo" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="UserOperation">
@@ -242,18 +261,6 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK_Accessories_AcessoriesImage">
-          <End Role="ComponentsImage" Type="Self.ComponentsImage" Multiplicity="0..1" />
-          <End Role="Components" Type="Self.Components" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComponentsImage">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Components">
-              <PropertyRef Name="IdComponentsImage" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Accessories_Supplier1">
           <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
           <End Role="Components" Type="Self.Components" Multiplicity="*" />
@@ -290,6 +297,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BreakdownEq_Equipment">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+          <End Role="BreakdownEq" Type="Self.BreakdownEq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="Model" />
+            </Principal>
+            <Dependent Role="BreakdownEq">
+              <PropertyRef Name="IdEquipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BreakdownEq_ReasonBreakdown">
+          <End Role="ReasonBreakdown" Type="Self.ReasonBreakdown" Multiplicity="0..1" />
+          <End Role="BreakdownEq" Type="Self.BreakdownEq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReasonBreakdown">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BreakdownEq">
+              <PropertyRef Name="IdReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Components_Warehouse">
           <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="0..1" />
           <End Role="Components" Type="Self.Components" Multiplicity="*" />
@@ -302,14 +333,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Document_Order">
+        <Association Name="FK_DocOrder_Order">
           <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
-          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <End Role="DocOrder" Type="Self.DocOrder" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Order">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Document">
+            <Dependent Role="DocOrder">
+              <PropertyRef Name="IdOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+          <End Role="HistoryStatus" Type="Self.HistoryStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HistoryStatus">
               <PropertyRef Name="IdOrder" />
             </Dependent>
           </ReferentialConstraint>
@@ -326,15 +369,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Material_MaterialImage">
-          <End Role="MaterialImage" Type="Self.MaterialImage" Multiplicity="0..1" />
-          <End Role="Material" Type="Self.Material" Multiplicity="*" />
+        <Association Name="FK_HistoryStatus_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="HistoryStatus" Type="Self.HistoryStatus" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MaterialImage">
+            <Principal Role="Status">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Material">
-              <PropertyRef Name="IdMaterialImage" />
+            <Dependent Role="HistoryStatus">
+              <PropertyRef Name="IdStatus" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -347,6 +390,18 @@
             </Principal>
             <Dependent Role="Material">
               <PropertyRef Name="IdStandart" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Material_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Material" Type="Self.Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierName" />
+            </Principal>
+            <Dependent Role="Material">
+              <PropertyRef Name="SupplierName" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -419,6 +474,18 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="IdProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="IdStatus" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -591,12 +658,12 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище UchebkaModelContainer">
+          <EntitySet Name="BreakdownEq" EntityType="Self.BreakdownEq" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Components" EntityType="Self.Components" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ComponentsImage" EntityType="Self.ComponentsImage" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocOrder" EntityType="Self.DocOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistoryStatus" EntityType="Self.HistoryStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MaterialImage" EntityType="Self.MaterialImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Operation" EntityType="Self.Operation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OperationSpecification" EntityType="Self.OperationSpecification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
@@ -604,9 +671,11 @@
           <EntitySet Name="ProductComponents" EntityType="Self.ProductComponents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductDetail" EntityType="Self.ProductDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductMaterial" EntityType="Self.ProductMaterial" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReasonBreakdown" EntityType="Self.ReasonBreakdown" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Size" EntityType="Self.Size" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Standart" EntityType="Self.Standart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeComponents" EntityType="Self.TypeComponents" Schema="dbo" store:Type="Tables" />
@@ -617,10 +686,6 @@
           <EntitySet Name="UserImage" EntityType="Self.UserImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserOperation" EntityType="Self.UserOperation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Warehouse" EntityType="Self.Warehouse" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Accessories_AcessoriesImage" Association="Self.FK_Accessories_AcessoriesImage">
-            <End Role="ComponentsImage" EntitySet="ComponentsImage" />
-            <End Role="Components" EntitySet="Components" />
-          </AssociationSet>
           <AssociationSet Name="FK_Accessories_Supplier1" Association="Self.FK_Accessories_Supplier1">
             <End Role="Supplier" EntitySet="Supplier" />
             <End Role="Components" EntitySet="Components" />
@@ -633,24 +698,40 @@
             <End Role="Unit" EntitySet="Unit" />
             <End Role="Components" EntitySet="Components" />
           </AssociationSet>
+          <AssociationSet Name="FK_BreakdownEq_Equipment" Association="Self.FK_BreakdownEq_Equipment">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="BreakdownEq" EntitySet="BreakdownEq" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BreakdownEq_ReasonBreakdown" Association="Self.FK_BreakdownEq_ReasonBreakdown">
+            <End Role="ReasonBreakdown" EntitySet="ReasonBreakdown" />
+            <End Role="BreakdownEq" EntitySet="BreakdownEq" />
+          </AssociationSet>
           <AssociationSet Name="FK_Components_Warehouse" Association="Self.FK_Components_Warehouse">
             <End Role="Warehouse" EntitySet="Warehouse" />
             <End Role="Components" EntitySet="Components" />
           </AssociationSet>
+          <AssociationSet Name="FK_DocOrder_Order" Association="Self.FK_DocOrder_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="DocOrder" EntitySet="DocOrder" />
+          </AssociationSet>
           <AssociationSet Name="FK_Document_Order" Association="Self.FK_Document_Order">
             <End Role="Order" EntitySet="Order" />
-            <End Role="Document" EntitySet="Document" />
+            <End Role="HistoryStatus" EntitySet="HistoryStatus" />
           </AssociationSet>
           <AssociationSet Name="FK_Equipment_TypeEquipment" Association="Self.FK_Equipment_TypeEquipment">
             <End Role="TypeEquipment" EntitySet="TypeEquipment" />
             <End Role="Equipment" EntitySet="Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK_Material_MaterialImage" Association="Self.FK_Material_MaterialImage">
-            <End Role="MaterialImage" EntitySet="MaterialImage" />
-            <End Role="Material" EntitySet="Material" />
+          <AssociationSet Name="FK_HistoryStatus_Status" Association="Self.FK_HistoryStatus_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="HistoryStatus" EntitySet="HistoryStatus" />
           </AssociationSet>
           <AssociationSet Name="FK_Material_Standart" Association="Self.FK_Material_Standart">
             <End Role="Standart" EntitySet="Standart" />
+            <End Role="Material" EntitySet="Material" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Material_Supplier" Association="Self.FK_Material_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
             <End Role="Material" EntitySet="Material" />
           </AssociationSet>
           <AssociationSet Name="FK_Material_TypeMaterial" Association="Self.FK_Material_TypeMaterial">
@@ -675,6 +756,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Order_Product" Association="Self.FK_Order_Product">
             <End Role="Product" EntitySet="Product" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_User2" Association="Self.FK_Order_User2">
@@ -738,560 +823,30 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="UchebkaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ComponentsImage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_Accessories_AcessoriesImage" FromRole="ComponentsImage" ToRole="Components" />
-        </EntityType>
-        <EntityType Name="Document">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Format" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="IdOrder" Type="Int32" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_Document_Order" FromRole="Document" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="Equipment">
-          <Key>
-            <PropertyRef Name="Model" />
-          </Key>
-          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IdTypeEquipment" Type="Int32" />
-          <Property Name="Characteristic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TypeEquipment" Relationship="Self.FK_Equipment_TypeEquipment" FromRole="Equipment" ToRole="TypeEquipment" />
-        </EntityType>
-        <EntityType Name="MaterialImage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_Material_MaterialImage" FromRole="MaterialImage" ToRole="Material" />
-        </EntityType>
-        <EntityType Name="Operation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserOperation" Relationship="Self.FK_UserOperation_Operation" FromRole="Operation" ToRole="UserOperation" />
-        </EntityType>
-        <EntityType Name="OperationSpecification">
-          <Key>
-            <PropertyRef Name="IdProduct" />
-            <PropertyRef Name="Operation" />
-            <PropertyRef Name="Number" />
-          </Key>
-          <Property Name="IdProduct" Type="Int32" Nullable="false" />
-          <Property Name="Operation" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Number" Type="Int32" Nullable="false" />
-          <Property Name="IdTypeEquipment" Type="Int32" />
-          <Property Name="Duration" Type="Time" Precision="7" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_OperationSpecification_Product" FromRole="OperationSpecification" ToRole="Product" />
-          <NavigationProperty Name="TypeEquipment" Relationship="Self.FK_OperationSpecification_TypeEquipment" FromRole="OperationSpecification" ToRole="TypeEquipment" />
-        </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="DateOrder" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IdProduct" Type="Int32" />
-          <Property Name="LoginCustomer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="LoginManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Amount" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="DateEnd" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Document" Relationship="Self.FK_Document_Order" FromRole="Order" ToRole="Document" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_Order_Product" FromRole="Order" ToRole="Product" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Order_User2" FromRole="Order" ToRole="User" />
-          <NavigationProperty Name="User1" Relationship="Self.FK_Order_User3" FromRole="Order" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OperationSpecification" Relationship="Self.FK_OperationSpecification_Product" FromRole="Product" ToRole="OperationSpecification" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_Order_Product" FromRole="Product" ToRole="Order" />
-          <NavigationProperty Name="ProductComponents" Relationship="Self.FK_ProductAccessories_Product" FromRole="Product" ToRole="ProductComponents" />
-          <NavigationProperty Name="ProductDetail" Relationship="Self.FK_ProductDetail_Product" FromRole="Product" ToRole="ProductDetail" />
-          <NavigationProperty Name="ProductDetail1" Relationship="Self.FK_ProductDetail_Product1" FromRole="Product" ToRole="ProductDetail" />
-          <NavigationProperty Name="ProductMaterial" Relationship="Self.FK_ProductMaterial_Product" FromRole="Product" ToRole="ProductMaterial" />
-          <NavigationProperty Name="Size" Relationship="Self.FK_Size_Product" FromRole="Product" ToRole="Size" />
-        </EntityType>
-        <EntityType Name="ProductComponents">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdProduct" Type="Int32" Nullable="false" />
-          <Property Name="AccessoriesArticle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Count" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_ProductAccessories_Product" FromRole="ProductComponents" ToRole="Product" />
-          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_ProductAccessories_Accessories" FromRole="ProductComponents" ToRole="Components" />
-        </EntityType>
-        <EntityType Name="ProductDetail">
-          <Key>
-            <PropertyRef Name="IdProduct" />
-            <PropertyRef Name="IdDetail" />
-          </Key>
-          <Property Name="IdProduct" Type="Int32" Nullable="false" />
-          <Property Name="IdDetail" Type="Int32" Nullable="false" />
-          <Property Name="Count" Type="Int32" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_ProductDetail_Product" FromRole="ProductDetail" ToRole="Product" />
-          <NavigationProperty Name="Product1" Relationship="Self.FK_ProductDetail_Product1" FromRole="ProductDetail" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="ProductMaterial">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="IdProduct" Type="Int32" />
-          <Property Name="MaterialArticle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Count" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_ProductMaterial_Product" FromRole="ProductMaterial" ToRole="Product" />
-          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_ProductMaterial_Material" FromRole="ProductMaterial" ToRole="Material" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Size">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SizeValue" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="IdUnit" Type="Int32" />
-          <Property Name="IdProduct" Type="Int32" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_Size_Product" FromRole="Size" ToRole="Product" />
-          <NavigationProperty Name="Unit" Relationship="Self.FK_Size_Unit" FromRole="Size" ToRole="Unit" />
-        </EntityType>
-        <EntityType Name="Standart">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_Material_Standart" FromRole="Standart" ToRole="Material" />
-        </EntityType>
-        <EntityType Name="Supplier">
-          <Key>
-            <PropertyRef Name="SupplierName" />
-          </Key>
-          <Property Name="SupplierName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DeliveryTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_Accessories_Supplier1" FromRole="Supplier" ToRole="Components" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="TypeComponents">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_Accessories_TypeAccessories" FromRole="TypeComponents" ToRole="Components" />
-        </EntityType>
-        <EntityType Name="TypeEquipment">
-          <Key>
-            <PropertyRef Name="IdTypeEquipment" />
-          </Key>
-          <Property Name="IdTypeEquipment" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK_Equipment_TypeEquipment" FromRole="TypeEquipment" ToRole="Equipment" />
-          <NavigationProperty Name="OperationSpecification" Relationship="Self.FK_OperationSpecification_TypeEquipment" FromRole="TypeEquipment" ToRole="OperationSpecification" />
-        </EntityType>
-        <EntityType Name="TypeMaterial">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_Material_TypeMaterial" FromRole="TypeMaterial" ToRole="Material" />
-        </EntityType>
-        <EntityType Name="Unit">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Size" Relationship="Self.FK_Size_Unit" FromRole="Unit" ToRole="Size" />
-          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_Accessories_Unit" FromRole="Unit" ToRole="Components" />
-          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_Material_Unit" FromRole="Unit" ToRole="Material" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Login" />
-          </Key>
-          <Property Name="Login" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RoleId" Type="Int32" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdUserImage" Type="Int32" />
-          <Property Name="DateBithday" Type="DateTime" Precision="0" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Post" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Education" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_Order_User2" FromRole="User" ToRole="Order" />
-          <NavigationProperty Name="Order1" Relationship="Self.FK_Order_User3" FromRole="User" ToRole="Order" />
-          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
-          <NavigationProperty Name="UserImage" Relationship="Self.FK_User_UserImage" FromRole="User" ToRole="UserImage" />
-          <NavigationProperty Name="UserOperation" Relationship="Self.FK_UserOperation_User" FromRole="User" ToRole="UserOperation" />
-        </EntityType>
-        <EntityType Name="UserImage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK_User_UserImage" FromRole="UserImage" ToRole="User" />
-        </EntityType>
-        <EntityType Name="UserOperation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdOperation" Type="Int32" />
-          <Property Name="Login" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Operation" Relationship="Self.FK_UserOperation_Operation" FromRole="UserOperation" ToRole="Operation" />
-          <NavigationProperty Name="User" Relationship="Self.FK_UserOperation_User" FromRole="UserOperation" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Warehouse">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_Components_Warehouse" FromRole="Warehouse" ToRole="Components" />
-          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_Material_Warehouse" FromRole="Warehouse" ToRole="Material" />
-        </EntityType>
-        <Association Name="FK_Document_Order">
-          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
-          <End Role="Document" Type="Self.Document" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Document">
-              <PropertyRef Name="IdOrder" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Equipment_TypeEquipment">
-          <End Role="TypeEquipment" Type="Self.TypeEquipment" Multiplicity="0..1" />
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TypeEquipment">
-              <PropertyRef Name="IdTypeEquipment" />
-            </Principal>
-            <Dependent Role="Equipment">
-              <PropertyRef Name="IdTypeEquipment" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserOperation_Operation">
-          <End Role="Operation" Type="Self.Operation" Multiplicity="0..1" />
-          <End Role="UserOperation" Type="Self.UserOperation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Operation">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UserOperation">
-              <PropertyRef Name="IdOperation" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OperationSpecification_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="OperationSpecification" Type="Self.OperationSpecification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OperationSpecification">
-              <PropertyRef Name="IdProduct" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OperationSpecification_TypeEquipment">
-          <End Role="TypeEquipment" Type="Self.TypeEquipment" Multiplicity="0..1" />
-          <End Role="OperationSpecification" Type="Self.OperationSpecification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TypeEquipment">
-              <PropertyRef Name="IdTypeEquipment" />
-            </Principal>
-            <Dependent Role="OperationSpecification">
-              <PropertyRef Name="IdTypeEquipment" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="IdProduct" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_User2">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Login" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="LoginCustomer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_User3">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Login" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="LoginManager" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductAccessories_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="ProductComponents" Type="Self.ProductComponents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProductComponents">
-              <PropertyRef Name="IdProduct" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductDetail_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="ProductDetail" Type="Self.ProductDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProductDetail">
-              <PropertyRef Name="IdProduct" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductDetail_Product1">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="ProductDetail" Type="Self.ProductDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProductDetail">
-              <PropertyRef Name="IdDetail" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductMaterial_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="ProductMaterial" Type="Self.ProductMaterial" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProductMaterial">
-              <PropertyRef Name="IdProduct" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Size_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="Size" Type="Self.Size" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Size">
-              <PropertyRef Name="IdProduct" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Size_Unit">
-          <End Role="Unit" Type="Self.Unit" Multiplicity="0..1" />
-          <End Role="Size" Type="Self.Size" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Unit">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Size">
-              <PropertyRef Name="IdUnit" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_UserImage">
-          <End Role="UserImage" Type="Self.UserImage" Multiplicity="0..1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserImage">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="IdUserImage" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserOperation_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="UserOperation" Type="Self.UserOperation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Login" />
-            </Principal>
-            <Dependent Role="UserOperation">
-              <PropertyRef Name="Login" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="UchebkaEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ComponentsImage" EntityType="Self.ComponentsImage" />
-          <EntitySet Name="Document" EntityType="Self.Document" />
-          <EntitySet Name="Equipment" EntityType="Self.Equipment" />
-          <EntitySet Name="MaterialImage" EntityType="Self.MaterialImage" />
-          <EntitySet Name="Operation" EntityType="Self.Operation" />
-          <EntitySet Name="OperationSpecification" EntityType="Self.OperationSpecification" />
-          <EntitySet Name="Order" EntityType="Self.Order" />
-          <EntitySet Name="Product" EntityType="Self.Product" />
-          <EntitySet Name="ProductComponents" EntityType="Self.ProductComponents" />
-          <EntitySet Name="ProductDetail" EntityType="Self.ProductDetail" />
-          <EntitySet Name="ProductMaterial" EntityType="Self.ProductMaterial" />
-          <EntitySet Name="Role" EntityType="Self.Role" />
-          <EntitySet Name="Size" EntityType="Self.Size" />
-          <EntitySet Name="Standart" EntityType="Self.Standart" />
-          <EntitySet Name="Supplier" EntityType="Self.Supplier" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="TypeComponents" EntityType="Self.TypeComponents" />
-          <EntitySet Name="TypeEquipment" EntityType="Self.TypeEquipment" />
-          <EntitySet Name="TypeMaterial" EntityType="Self.TypeMaterial" />
-          <EntitySet Name="Unit" EntityType="Self.Unit" />
-          <EntitySet Name="User" EntityType="Self.User" />
-          <EntitySet Name="UserImage" EntityType="Self.UserImage" />
-          <EntitySet Name="UserOperation" EntityType="Self.UserOperation" />
-          <EntitySet Name="Warehouse" EntityType="Self.Warehouse" />
-          <AssociationSet Name="FK_Document_Order" Association="Self.FK_Document_Order">
-            <End Role="Order" EntitySet="Order" />
-            <End Role="Document" EntitySet="Document" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Equipment_TypeEquipment" Association="Self.FK_Equipment_TypeEquipment">
-            <End Role="TypeEquipment" EntitySet="TypeEquipment" />
-            <End Role="Equipment" EntitySet="Equipment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserOperation_Operation" Association="Self.FK_UserOperation_Operation">
-            <End Role="Operation" EntitySet="Operation" />
-            <End Role="UserOperation" EntitySet="UserOperation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OperationSpecification_Product" Association="Self.FK_OperationSpecification_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="OperationSpecification" EntitySet="OperationSpecification" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OperationSpecification_TypeEquipment" Association="Self.FK_OperationSpecification_TypeEquipment">
-            <End Role="TypeEquipment" EntitySet="TypeEquipment" />
-            <End Role="OperationSpecification" EntitySet="OperationSpecification" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Product" Association="Self.FK_Order_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_User2" Association="Self.FK_Order_User2">
-            <End Role="User" EntitySet="User" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_User3" Association="Self.FK_Order_User3">
-            <End Role="User" EntitySet="User" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductAccessories_Product" Association="Self.FK_ProductAccessories_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="ProductComponents" EntitySet="ProductComponents" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductDetail_Product" Association="Self.FK_ProductDetail_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="ProductDetail" EntitySet="ProductDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductDetail_Product1" Association="Self.FK_ProductDetail_Product1">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="ProductDetail" EntitySet="ProductDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductMaterial_Product" Association="Self.FK_ProductMaterial_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="ProductMaterial" EntitySet="ProductMaterial" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Size_Product" Association="Self.FK_Size_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="Size" EntitySet="Size" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Size_Unit" Association="Self.FK_Size_Unit">
-            <End Role="Unit" EntitySet="Unit" />
-            <End Role="Size" EntitySet="Size" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_UserImage" Association="Self.FK_User_UserImage">
-            <End Role="UserImage" EntitySet="UserImage" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserOperation_User" Association="Self.FK_UserOperation_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="UserOperation" EntitySet="UserOperation" />
-          </AssociationSet>
+        <EntityContainer Name="UchebkaEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Components" EntityType="UchebkaModel.Components" />
+          <EntitySet Name="Equipment" EntityType="UchebkaModel.Equipment" />
           <EntitySet Name="Material" EntityType="UchebkaModel.Material" />
-          <AssociationSet Name="FK_Accessories_AcessoriesImage" Association="UchebkaModel.FK_Accessories_AcessoriesImage">
-            <End Role="ComponentsImage" EntitySet="ComponentsImage" />
-            <End Role="Components" EntitySet="Components" />
-          </AssociationSet>
+          <EntitySet Name="Operation" EntityType="UchebkaModel.Operation" />
+          <EntitySet Name="OperationSpecification" EntityType="UchebkaModel.OperationSpecification" />
+          <EntitySet Name="Product" EntityType="UchebkaModel.Product" />
+          <EntitySet Name="ProductComponents" EntityType="UchebkaModel.ProductComponents" />
+          <EntitySet Name="ProductDetail" EntityType="UchebkaModel.ProductDetail" />
+          <EntitySet Name="ProductMaterial" EntityType="UchebkaModel.ProductMaterial" />
+          <EntitySet Name="Role" EntityType="UchebkaModel.Role" />
+          <EntitySet Name="Size" EntityType="UchebkaModel.Size" />
+          <EntitySet Name="Standart" EntityType="UchebkaModel.Standart" />
+          <EntitySet Name="Status" EntityType="UchebkaModel.Status" />
+          <EntitySet Name="Supplier" EntityType="UchebkaModel.Supplier" />
+          <EntitySet Name="sysdiagrams" EntityType="UchebkaModel.sysdiagrams" />
+          <EntitySet Name="TypeComponents" EntityType="UchebkaModel.TypeComponents" />
+          <EntitySet Name="TypeEquipment" EntityType="UchebkaModel.TypeEquipment" />
+          <EntitySet Name="TypeMaterial" EntityType="UchebkaModel.TypeMaterial" />
+          <EntitySet Name="Unit" EntityType="UchebkaModel.Unit" />
+          <EntitySet Name="User" EntityType="UchebkaModel.User" />
+          <EntitySet Name="UserImage" EntityType="UchebkaModel.UserImage" />
+          <EntitySet Name="UserOperation" EntityType="UchebkaModel.UserOperation" />
+          <EntitySet Name="Warehouse" EntityType="UchebkaModel.Warehouse" />
           <AssociationSet Name="FK_Accessories_Supplier1" Association="UchebkaModel.FK_Accessories_Supplier1">
             <End Role="Supplier" EntitySet="Supplier" />
             <End Role="Components" EntitySet="Components" />
@@ -1312,12 +867,16 @@
             <End Role="Components" EntitySet="Components" />
             <End Role="ProductComponents" EntitySet="ProductComponents" />
           </AssociationSet>
-          <AssociationSet Name="FK_Material_MaterialImage" Association="UchebkaModel.FK_Material_MaterialImage">
-            <End Role="MaterialImage" EntitySet="MaterialImage" />
-            <End Role="Material" EntitySet="Material" />
+          <AssociationSet Name="FK_Equipment_TypeEquipment" Association="UchebkaModel.FK_Equipment_TypeEquipment">
+            <End Role="TypeEquipment" EntitySet="TypeEquipment" />
+            <End Role="Equipment" EntitySet="Equipment" />
           </AssociationSet>
           <AssociationSet Name="FK_Material_Standart" Association="UchebkaModel.FK_Material_Standart">
             <End Role="Standart" EntitySet="Standart" />
+            <End Role="Material" EntitySet="Material" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Material_Supplier" Association="UchebkaModel.FK_Material_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
             <End Role="Material" EntitySet="Material" />
           </AssociationSet>
           <AssociationSet Name="FK_Material_TypeMaterial" Association="UchebkaModel.FK_Material_TypeMaterial">
@@ -1336,6 +895,95 @@
             <End Role="Material" EntitySet="Material" />
             <End Role="ProductMaterial" EntitySet="ProductMaterial" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserOperation_Operation" Association="UchebkaModel.FK_UserOperation_Operation">
+            <End Role="Operation" EntitySet="Operation" />
+            <End Role="UserOperation" EntitySet="UserOperation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationSpecification_Product" Association="UchebkaModel.FK_OperationSpecification_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="OperationSpecification" EntitySet="OperationSpecification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationSpecification_TypeEquipment" Association="UchebkaModel.FK_OperationSpecification_TypeEquipment">
+            <End Role="TypeEquipment" EntitySet="TypeEquipment" />
+            <End Role="OperationSpecification" EntitySet="OperationSpecification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductAccessories_Product" Association="UchebkaModel.FK_ProductAccessories_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductComponents" EntitySet="ProductComponents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductDetail_Product" Association="UchebkaModel.FK_ProductDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductDetail" EntitySet="ProductDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductDetail_Product1" Association="UchebkaModel.FK_ProductDetail_Product1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductDetail" EntitySet="ProductDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMaterial_Product" Association="UchebkaModel.FK_ProductMaterial_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductMaterial" EntitySet="ProductMaterial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Size_Product" Association="UchebkaModel.FK_Size_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Size" EntitySet="Size" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="UchebkaModel.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Size_Unit" Association="UchebkaModel.FK_Size_Unit">
+            <End Role="Unit" EntitySet="Unit" />
+            <End Role="Size" EntitySet="Size" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_UserImage" Association="UchebkaModel.FK_User_UserImage">
+            <End Role="UserImage" EntitySet="UserImage" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOperation_User" Association="UchebkaModel.FK_UserOperation_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserOperation" EntitySet="UserOperation" />
+          </AssociationSet>
+          <EntitySet Name="Order" EntityType="UchebkaModel.Order" />
+          <AssociationSet Name="FK_Order_Product" Association="UchebkaModel.FK_Order_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Status" Association="UchebkaModel.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User2" Association="UchebkaModel.FK_Order_User2">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User3" Association="UchebkaModel.FK_Order_User3">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <EntitySet Name="DocOrder" EntityType="UchebkaModel.DocOrder" />
+          <EntitySet Name="HistoryStatus" EntityType="UchebkaModel.HistoryStatus" />
+          <AssociationSet Name="FK_DocOrder_Order" Association="UchebkaModel.FK_DocOrder_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="DocOrder" EntitySet="DocOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_Order" Association="UchebkaModel.FK_Document_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="HistoryStatus" EntitySet="HistoryStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryStatus_Status" Association="UchebkaModel.FK_HistoryStatus_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="HistoryStatus" EntitySet="HistoryStatus" />
+          </AssociationSet>
+          <EntitySet Name="BreakdownEq" EntityType="UchebkaModel.BreakdownEq" />
+          <EntitySet Name="ReasonBreakdown" EntityType="UchebkaModel.ReasonBreakdown" />
+          <AssociationSet Name="FK_BreakdownEq_Equipment" Association="UchebkaModel.FK_BreakdownEq_Equipment">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="BreakdownEq" EntitySet="BreakdownEq" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BreakdownEq_ReasonBreakdown" Association="UchebkaModel.FK_BreakdownEq_ReasonBreakdown">
+            <End Role="ReasonBreakdown" EntitySet="ReasonBreakdown" />
+            <End Role="BreakdownEq" EntitySet="BreakdownEq" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Components">
           <Key>
@@ -1346,17 +994,26 @@
           <Property Name="IdUnit" Type="Int32" />
           <Property Name="Count" Type="Int32" />
           <Property Name="SupplierName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdComponentsImage" Type="Int32" />
+          <Property Name="ComImage" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="IdTypeComponents" Type="Int32" />
           <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="Weight" Type="Decimal" Precision="10" Scale="4" />
           <Property Name="IdWarehouse" Type="Int32" />
-          <NavigationProperty Name="ComponentsImage" Relationship="UchebkaModel.FK_Accessories_AcessoriesImage" FromRole="Components" ToRole="ComponentsImage" />
           <NavigationProperty Name="Supplier" Relationship="UchebkaModel.FK_Accessories_Supplier1" FromRole="Components" ToRole="Supplier" />
           <NavigationProperty Name="TypeComponents" Relationship="UchebkaModel.FK_Accessories_TypeAccessories" FromRole="Components" ToRole="TypeComponents" />
           <NavigationProperty Name="Unit" Relationship="UchebkaModel.FK_Accessories_Unit" FromRole="Components" ToRole="Unit" />
           <NavigationProperty Name="Warehouse" Relationship="UchebkaModel.FK_Components_Warehouse" FromRole="Components" ToRole="Warehouse" />
           <NavigationProperty Name="ProductComponents" Relationship="UchebkaModel.FK_ProductAccessories_Accessories" FromRole="Components" ToRole="ProductComponents" />
+        </EntityType>
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="Model" />
+          </Key>
+          <Property Name="Model" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdTypeEquipment" Type="Int32" />
+          <Property Name="Characteristic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TypeEquipment" Relationship="UchebkaModel.FK_Equipment_TypeEquipment" FromRole="Equipment" ToRole="TypeEquipment" />
+          <NavigationProperty Name="BreakdownEq" Relationship="UchebkaModel.FK_BreakdownEq_Equipment" FromRole="Equipment" ToRole="BreakdownEq" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -1367,32 +1024,229 @@
           <Property Name="IdUnit" Type="Int32" />
           <Property Name="Count" Type="Int32" />
           <Property Name="SupplierName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdMaterialImage" Type="Int32" />
+          <Property Name="MatImage" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="IdTypeMaterial" Type="Int32" />
           <Property Name="PriceOneKg" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="IdStandart" Type="Int32" />
           <Property Name="WidthMetr" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="MassOneMetr" Type="Decimal" Precision="12" Scale="5" />
           <Property Name="IdWarehouse" Type="Int32" />
-          <NavigationProperty Name="MaterialImage" Relationship="UchebkaModel.FK_Material_MaterialImage" FromRole="Material" ToRole="MaterialImage" />
           <NavigationProperty Name="Standart" Relationship="UchebkaModel.FK_Material_Standart" FromRole="Material" ToRole="Standart" />
+          <NavigationProperty Name="Supplier" Relationship="UchebkaModel.FK_Material_Supplier" FromRole="Material" ToRole="Supplier" />
           <NavigationProperty Name="TypeMaterial" Relationship="UchebkaModel.FK_Material_TypeMaterial" FromRole="Material" ToRole="TypeMaterial" />
           <NavigationProperty Name="Unit" Relationship="UchebkaModel.FK_Material_Unit" FromRole="Material" ToRole="Unit" />
           <NavigationProperty Name="Warehouse" Relationship="UchebkaModel.FK_Material_Warehouse" FromRole="Material" ToRole="Warehouse" />
           <NavigationProperty Name="ProductMaterial" Relationship="UchebkaModel.FK_ProductMaterial_Material" FromRole="Material" ToRole="ProductMaterial" />
         </EntityType>
-        <Association Name="FK_Accessories_AcessoriesImage">
-          <End Type="UchebkaModel.ComponentsImage" Role="ComponentsImage" Multiplicity="0..1" />
-          <End Type="UchebkaModel.Components" Role="Components" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComponentsImage">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Components">
-              <PropertyRef Name="IdComponentsImage" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="Operation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserOperation" Relationship="UchebkaModel.FK_UserOperation_Operation" FromRole="Operation" ToRole="UserOperation" />
+        </EntityType>
+        <EntityType Name="OperationSpecification">
+          <Key>
+            <PropertyRef Name="IdProduct" />
+            <PropertyRef Name="Operation" />
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="IdProduct" Type="Int32" Nullable="false" />
+          <Property Name="Operation" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="IdTypeEquipment" Type="Int32" />
+          <Property Name="Duration" Type="Time" Precision="7" />
+          <NavigationProperty Name="Product" Relationship="UchebkaModel.FK_OperationSpecification_Product" FromRole="OperationSpecification" ToRole="Product" />
+          <NavigationProperty Name="TypeEquipment" Relationship="UchebkaModel.FK_OperationSpecification_TypeEquipment" FromRole="OperationSpecification" ToRole="TypeEquipment" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OperationSpecification" Relationship="UchebkaModel.FK_OperationSpecification_Product" FromRole="Product" ToRole="OperationSpecification" />
+          <NavigationProperty Name="ProductComponents" Relationship="UchebkaModel.FK_ProductAccessories_Product" FromRole="Product" ToRole="ProductComponents" />
+          <NavigationProperty Name="ProductDetail" Relationship="UchebkaModel.FK_ProductDetail_Product" FromRole="Product" ToRole="ProductDetail" />
+          <NavigationProperty Name="ProductDetail1" Relationship="UchebkaModel.FK_ProductDetail_Product1" FromRole="Product" ToRole="ProductDetail" />
+          <NavigationProperty Name="ProductMaterial" Relationship="UchebkaModel.FK_ProductMaterial_Product" FromRole="Product" ToRole="ProductMaterial" />
+          <NavigationProperty Name="Size" Relationship="UchebkaModel.FK_Size_Product" FromRole="Product" ToRole="Size" />
+          <NavigationProperty Name="Order" Relationship="UchebkaModel.FK_Order_Product" FromRole="Product" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="ProductComponents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProduct" Type="Int32" Nullable="false" />
+          <Property Name="AccessoriesArticle" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Count" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_ProductAccessories_Accessories" FromRole="ProductComponents" ToRole="Components" />
+          <NavigationProperty Name="Product" Relationship="UchebkaModel.FK_ProductAccessories_Product" FromRole="ProductComponents" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="ProductDetail">
+          <Key>
+            <PropertyRef Name="IdProduct" />
+            <PropertyRef Name="IdDetail" />
+          </Key>
+          <Property Name="IdProduct" Type="Int32" Nullable="false" />
+          <Property Name="IdDetail" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="UchebkaModel.FK_ProductDetail_Product" FromRole="ProductDetail" ToRole="Product" />
+          <NavigationProperty Name="Product1" Relationship="UchebkaModel.FK_ProductDetail_Product1" FromRole="ProductDetail" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="ProductMaterial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdProduct" Type="Int32" />
+          <Property Name="MaterialArticle" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Count" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_ProductMaterial_Material" FromRole="ProductMaterial" ToRole="Material" />
+          <NavigationProperty Name="Product" Relationship="UchebkaModel.FK_ProductMaterial_Product" FromRole="ProductMaterial" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="UchebkaModel.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Size">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SizeValue" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="IdUnit" Type="Int32" />
+          <Property Name="IdProduct" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="UchebkaModel.FK_Size_Product" FromRole="Size" ToRole="Product" />
+          <NavigationProperty Name="Unit" Relationship="UchebkaModel.FK_Size_Unit" FromRole="Size" ToRole="Unit" />
+        </EntityType>
+        <EntityType Name="Standart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_Material_Standart" FromRole="Standart" ToRole="Material" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="UchebkaModel.FK_Order_Status" FromRole="Status" ToRole="Order" />
+          <NavigationProperty Name="HistoryStatus" Relationship="UchebkaModel.FK_HistoryStatus_Status" FromRole="Status" ToRole="HistoryStatus" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierName" />
+          </Key>
+          <Property Name="SupplierName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_Accessories_Supplier1" FromRole="Supplier" ToRole="Components" />
+          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_Material_Supplier" FromRole="Supplier" ToRole="Material" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TypeComponents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_Accessories_TypeAccessories" FromRole="TypeComponents" ToRole="Components" />
+        </EntityType>
+        <EntityType Name="TypeEquipment">
+          <Key>
+            <PropertyRef Name="IdTypeEquipment" />
+          </Key>
+          <Property Name="IdTypeEquipment" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Equipment" Relationship="UchebkaModel.FK_Equipment_TypeEquipment" FromRole="TypeEquipment" ToRole="Equipment" />
+          <NavigationProperty Name="OperationSpecification" Relationship="UchebkaModel.FK_OperationSpecification_TypeEquipment" FromRole="TypeEquipment" ToRole="OperationSpecification" />
+        </EntityType>
+        <EntityType Name="TypeMaterial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_Material_TypeMaterial" FromRole="TypeMaterial" ToRole="Material" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_Accessories_Unit" FromRole="Unit" ToRole="Components" />
+          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_Material_Unit" FromRole="Unit" ToRole="Material" />
+          <NavigationProperty Name="Size" Relationship="UchebkaModel.FK_Size_Unit" FromRole="Unit" ToRole="Size" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Login" />
+          </Key>
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdUserImage" Type="Int32" />
+          <Property Name="DateBithday" Type="DateTime" Precision="0" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Post" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Education" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Role" Relationship="UchebkaModel.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="UserImage" Relationship="UchebkaModel.FK_User_UserImage" FromRole="User" ToRole="UserImage" />
+          <NavigationProperty Name="UserOperation" Relationship="UchebkaModel.FK_UserOperation_User" FromRole="User" ToRole="UserOperation" />
+          <NavigationProperty Name="Order" Relationship="UchebkaModel.FK_Order_User2" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="Order1" Relationship="UchebkaModel.FK_Order_User3" FromRole="User" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="UserImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="User" Relationship="UchebkaModel.FK_User_UserImage" FromRole="UserImage" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserOperation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOperation" Type="Int32" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Operation" Relationship="UchebkaModel.FK_UserOperation_Operation" FromRole="UserOperation" ToRole="Operation" />
+          <NavigationProperty Name="User" Relationship="UchebkaModel.FK_UserOperation_User" FromRole="UserOperation" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Warehouse">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Components" Relationship="UchebkaModel.FK_Components_Warehouse" FromRole="Warehouse" ToRole="Components" />
+          <NavigationProperty Name="Material" Relationship="UchebkaModel.FK_Material_Warehouse" FromRole="Warehouse" ToRole="Material" />
+        </EntityType>
         <Association Name="FK_Accessories_Supplier1">
           <End Type="UchebkaModel.Supplier" Role="Supplier" Multiplicity="1" />
           <End Type="UchebkaModel.Components" Role="Components" Multiplicity="*" />
@@ -1453,15 +1307,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Material_MaterialImage">
-          <End Type="UchebkaModel.MaterialImage" Role="MaterialImage" Multiplicity="0..1" />
-          <End Type="UchebkaModel.Material" Role="Material" Multiplicity="*" />
+        <Association Name="FK_Equipment_TypeEquipment">
+          <End Type="UchebkaModel.TypeEquipment" Role="TypeEquipment" Multiplicity="0..1" />
+          <End Type="UchebkaModel.Equipment" Role="Equipment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MaterialImage">
-              <PropertyRef Name="Id" />
+            <Principal Role="TypeEquipment">
+              <PropertyRef Name="IdTypeEquipment" />
             </Principal>
-            <Dependent Role="Material">
-              <PropertyRef Name="IdMaterialImage" />
+            <Dependent Role="Equipment">
+              <PropertyRef Name="IdTypeEquipment" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1474,6 +1328,18 @@
             </Principal>
             <Dependent Role="Material">
               <PropertyRef Name="IdStandart" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Material_Supplier">
+          <End Type="UchebkaModel.Supplier" Role="Supplier" Multiplicity="1" />
+          <End Type="UchebkaModel.Material" Role="Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierName" />
+            </Principal>
+            <Dependent Role="Material">
+              <PropertyRef Name="SupplierName" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1525,238 +1391,324 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserOperation_Operation">
+          <End Type="UchebkaModel.Operation" Role="Operation" Multiplicity="0..1" />
+          <End Type="UchebkaModel.UserOperation" Role="UserOperation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Operation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserOperation">
+              <PropertyRef Name="IdOperation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationSpecification_Product">
+          <End Type="UchebkaModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="UchebkaModel.OperationSpecification" Role="OperationSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationSpecification">
+              <PropertyRef Name="IdProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationSpecification_TypeEquipment">
+          <End Type="UchebkaModel.TypeEquipment" Role="TypeEquipment" Multiplicity="0..1" />
+          <End Type="UchebkaModel.OperationSpecification" Role="OperationSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeEquipment">
+              <PropertyRef Name="IdTypeEquipment" />
+            </Principal>
+            <Dependent Role="OperationSpecification">
+              <PropertyRef Name="IdTypeEquipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductAccessories_Product">
+          <End Type="UchebkaModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="UchebkaModel.ProductComponents" Role="ProductComponents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductComponents">
+              <PropertyRef Name="IdProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductDetail_Product">
+          <End Type="UchebkaModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="UchebkaModel.ProductDetail" Role="ProductDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductDetail">
+              <PropertyRef Name="IdProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductDetail_Product1">
+          <End Type="UchebkaModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="UchebkaModel.ProductDetail" Role="ProductDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductDetail">
+              <PropertyRef Name="IdDetail" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMaterial_Product">
+          <End Type="UchebkaModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="UchebkaModel.ProductMaterial" Role="ProductMaterial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMaterial">
+              <PropertyRef Name="IdProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Size_Product">
+          <End Type="UchebkaModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="UchebkaModel.Size" Role="Size" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Size">
+              <PropertyRef Name="IdProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Type="UchebkaModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="UchebkaModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Size_Unit">
+          <End Type="UchebkaModel.Unit" Role="Unit" Multiplicity="0..1" />
+          <End Type="UchebkaModel.Size" Role="Size" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Size">
+              <PropertyRef Name="IdUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_UserImage">
+          <End Type="UchebkaModel.UserImage" Role="UserImage" Multiplicity="0..1" />
+          <End Type="UchebkaModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserImage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="IdUserImage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOperation_User">
+          <End Type="UchebkaModel.User" Role="User" Multiplicity="1" />
+          <End Type="UchebkaModel.UserOperation" Role="UserOperation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Login" />
+            </Principal>
+            <Dependent Role="UserOperation">
+              <PropertyRef Name="Login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="true" Unicode="true" />
+          <Property Name="DateOrder" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdProduct" Type="Int32" />
+          <Property Name="LoginCustomer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DateEnd" Type="DateTime" Precision="0" />
+          <Property Name="IdStatus" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="UchebkaModel.FK_Order_Product" FromRole="Order" ToRole="Product" />
+          <NavigationProperty Name="Status" Relationship="UchebkaModel.FK_Order_Status" FromRole="Order" ToRole="Status" />
+          <NavigationProperty Name="User" Relationship="UchebkaModel.FK_Order_User2" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="UchebkaModel.FK_Order_User3" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="DocOrder" Relationship="UchebkaModel.FK_DocOrder_Order" FromRole="Order" ToRole="DocOrder" />
+          <NavigationProperty Name="HistoryStatus" Relationship="UchebkaModel.FK_Document_Order" FromRole="Order" ToRole="HistoryStatus" />
+        </EntityType>
+        <Association Name="FK_Order_Product">
+          <End Type="UchebkaModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="UchebkaModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="IdProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Status">
+          <End Type="UchebkaModel.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="UchebkaModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="IdStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_User2">
+          <End Type="UchebkaModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="UchebkaModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Login" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="LoginCustomer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_User3">
+          <End Type="UchebkaModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="UchebkaModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Login" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="LoginManager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DocOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="IdOrder" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="UchebkaModel.FK_DocOrder_Order" FromRole="DocOrder" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="HistoryStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="TimeOrder" Type="Time" Precision="1" />
+          <Property Name="IdOrder" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+          <Property Name="IdStatus" Type="Int32" />
+          <NavigationProperty Name="Order" Relationship="UchebkaModel.FK_Document_Order" FromRole="HistoryStatus" ToRole="Order" />
+          <NavigationProperty Name="Status" Relationship="UchebkaModel.FK_HistoryStatus_Status" FromRole="HistoryStatus" ToRole="Status" />
+        </EntityType>
+        <Association Name="FK_DocOrder_Order">
+          <End Type="UchebkaModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="UchebkaModel.DocOrder" Role="DocOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocOrder">
+              <PropertyRef Name="IdOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_Order">
+          <End Type="UchebkaModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="UchebkaModel.HistoryStatus" Role="HistoryStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HistoryStatus">
+              <PropertyRef Name="IdOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryStatus_Status">
+          <End Type="UchebkaModel.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="UchebkaModel.HistoryStatus" Role="HistoryStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HistoryStatus">
+              <PropertyRef Name="IdStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BreakdownEq">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdEquipment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStart" Type="DateTime" Precision="3" />
+          <Property Name="TimeEnd" Type="DateTime" Precision="3" />
+          <Property Name="IdReason" Type="Int32" />
+          <NavigationProperty Name="Equipment" Relationship="UchebkaModel.FK_BreakdownEq_Equipment" FromRole="BreakdownEq" ToRole="Equipment" />
+          <NavigationProperty Name="ReasonBreakdown" Relationship="UchebkaModel.FK_BreakdownEq_ReasonBreakdown" FromRole="BreakdownEq" ToRole="ReasonBreakdown" />
+        </EntityType>
+        <EntityType Name="ReasonBreakdown">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BreakdownEq" Relationship="UchebkaModel.FK_BreakdownEq_ReasonBreakdown" FromRole="ReasonBreakdown" ToRole="BreakdownEq" />
+        </EntityType>
+        <Association Name="FK_BreakdownEq_Equipment">
+          <End Type="UchebkaModel.Equipment" Role="Equipment" Multiplicity="0..1" />
+          <End Type="UchebkaModel.BreakdownEq" Role="BreakdownEq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="Model" />
+            </Principal>
+            <Dependent Role="BreakdownEq">
+              <PropertyRef Name="IdEquipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BreakdownEq_ReasonBreakdown">
+          <End Type="UchebkaModel.ReasonBreakdown" Role="ReasonBreakdown" Multiplicity="0..1" />
+          <End Type="UchebkaModel.BreakdownEq" Role="BreakdownEq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReasonBreakdown">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BreakdownEq">
+              <PropertyRef Name="IdReason" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище UchebkaModelContainer" CdmEntityContainer="UchebkaEntities">
-          <EntitySetMapping Name="ComponentsImage">
-            <EntityTypeMapping TypeName="UchebkaModel.ComponentsImage">
-              <MappingFragment StoreEntitySet="ComponentsImage">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Photo" ColumnName="Photo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Document">
-            <EntityTypeMapping TypeName="UchebkaModel.Document">
-              <MappingFragment StoreEntitySet="Document">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Format" ColumnName="Format" />
-                <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Equipment">
-            <EntityTypeMapping TypeName="UchebkaModel.Equipment">
-              <MappingFragment StoreEntitySet="Equipment">
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="IdTypeEquipment" ColumnName="IdTypeEquipment" />
-                <ScalarProperty Name="Characteristic" ColumnName="Characteristic" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MaterialImage">
-            <EntityTypeMapping TypeName="UchebkaModel.MaterialImage">
-              <MappingFragment StoreEntitySet="MaterialImage">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Photo" ColumnName="Photo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Operation">
-            <EntityTypeMapping TypeName="UchebkaModel.Operation">
-              <MappingFragment StoreEntitySet="Operation">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OperationSpecification">
-            <EntityTypeMapping TypeName="UchebkaModel.OperationSpecification">
-              <MappingFragment StoreEntitySet="OperationSpecification">
-                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="IdTypeEquipment" ColumnName="IdTypeEquipment" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Order">
-            <EntityTypeMapping TypeName="UchebkaModel.Order">
-              <MappingFragment StoreEntitySet="Order">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DateOrder" ColumnName="DateOrder" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
-                <ScalarProperty Name="LoginCustomer" ColumnName="LoginCustomer" />
-                <ScalarProperty Name="LoginManager" ColumnName="LoginManager" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Product">
-            <EntityTypeMapping TypeName="UchebkaModel.Product">
-              <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProductComponents">
-            <EntityTypeMapping TypeName="UchebkaModel.ProductComponents">
-              <MappingFragment StoreEntitySet="ProductComponents">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
-                <ScalarProperty Name="AccessoriesArticle" ColumnName="AccessoriesArticle" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProductDetail">
-            <EntityTypeMapping TypeName="UchebkaModel.ProductDetail">
-              <MappingFragment StoreEntitySet="ProductDetail">
-                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
-                <ScalarProperty Name="IdDetail" ColumnName="IdDetail" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProductMaterial">
-            <EntityTypeMapping TypeName="UchebkaModel.ProductMaterial">
-              <MappingFragment StoreEntitySet="ProductMaterial">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
-                <ScalarProperty Name="MaterialArticle" ColumnName="MaterialArticle" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Role">
-            <EntityTypeMapping TypeName="UchebkaModel.Role">
-              <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Size">
-            <EntityTypeMapping TypeName="UchebkaModel.Size">
-              <MappingFragment StoreEntitySet="Size">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="SizeValue" ColumnName="SizeValue" />
-                <ScalarProperty Name="IdUnit" ColumnName="IdUnit" />
-                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Standart">
-            <EntityTypeMapping TypeName="UchebkaModel.Standart">
-              <MappingFragment StoreEntitySet="Standart">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Supplier">
-            <EntityTypeMapping TypeName="UchebkaModel.Supplier">
-              <MappingFragment StoreEntitySet="Supplier">
-                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="DeliveryTime" ColumnName="DeliveryTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="UchebkaModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TypeComponents">
-            <EntityTypeMapping TypeName="UchebkaModel.TypeComponents">
-              <MappingFragment StoreEntitySet="TypeComponents">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TypeEquipment">
-            <EntityTypeMapping TypeName="UchebkaModel.TypeEquipment">
-              <MappingFragment StoreEntitySet="TypeEquipment">
-                <ScalarProperty Name="IdTypeEquipment" ColumnName="IdTypeEquipment" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TypeMaterial">
-            <EntityTypeMapping TypeName="UchebkaModel.TypeMaterial">
-              <MappingFragment StoreEntitySet="TypeMaterial">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Unit">
-            <EntityTypeMapping TypeName="UchebkaModel.Unit">
-              <MappingFragment StoreEntitySet="Unit">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="UchebkaModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-                <ScalarProperty Name="IdUserImage" ColumnName="IdUserImage" />
-                <ScalarProperty Name="DateBithday" ColumnName="DateBithday" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Post" ColumnName="Post" />
-                <ScalarProperty Name="Education" ColumnName="Education" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserImage">
-            <EntityTypeMapping TypeName="UchebkaModel.UserImage">
-              <MappingFragment StoreEntitySet="UserImage">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Photo" ColumnName="Photo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserOperation">
-            <EntityTypeMapping TypeName="UchebkaModel.UserOperation">
-              <MappingFragment StoreEntitySet="UserOperation">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="IdOperation" ColumnName="IdOperation" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Warehouse">
-            <EntityTypeMapping TypeName="UchebkaModel.Warehouse">
-              <MappingFragment StoreEntitySet="Warehouse">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+        <EntityContainerMapping StorageEntityContainer="Хранилище UchebkaModelContainer" CdmEntityContainer="UchebkaEntities2">
           <EntitySetMapping Name="Components">
             <EntityTypeMapping TypeName="UchebkaModel.Components">
               <MappingFragment StoreEntitySet="Components">
@@ -1764,12 +1716,21 @@
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="IdTypeComponents" ColumnName="IdTypeComponents" />
-                <ScalarProperty Name="IdComponentsImage" ColumnName="IdComponentsImage" />
+                <ScalarProperty Name="ComImage" ColumnName="ComImage" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="Count" ColumnName="Count" />
                 <ScalarProperty Name="IdUnit" ColumnName="IdUnit" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Article" ColumnName="Article" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipment">
+            <EntityTypeMapping TypeName="UchebkaModel.Equipment">
+              <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="Characteristic" ColumnName="Characteristic" />
+                <ScalarProperty Name="IdTypeEquipment" ColumnName="IdTypeEquipment" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1782,12 +1743,250 @@
                 <ScalarProperty Name="IdStandart" ColumnName="IdStandart" />
                 <ScalarProperty Name="PriceOneKg" ColumnName="PriceOneKg" />
                 <ScalarProperty Name="IdTypeMaterial" ColumnName="IdTypeMaterial" />
-                <ScalarProperty Name="IdMaterialImage" ColumnName="IdMaterialImage" />
+                <ScalarProperty Name="MatImage" ColumnName="MatImage" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="Count" ColumnName="Count" />
                 <ScalarProperty Name="IdUnit" ColumnName="IdUnit" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Article" ColumnName="Article" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Operation">
+            <EntityTypeMapping TypeName="UchebkaModel.Operation">
+              <MappingFragment StoreEntitySet="Operation">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OperationSpecification">
+            <EntityTypeMapping TypeName="UchebkaModel.OperationSpecification">
+              <MappingFragment StoreEntitySet="OperationSpecification">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="IdTypeEquipment" ColumnName="IdTypeEquipment" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Operation" ColumnName="Operation" />
+                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="UchebkaModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductComponents">
+            <EntityTypeMapping TypeName="UchebkaModel.ProductComponents">
+              <MappingFragment StoreEntitySet="ProductComponents">
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="AccessoriesArticle" ColumnName="AccessoriesArticle" />
+                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductDetail">
+            <EntityTypeMapping TypeName="UchebkaModel.ProductDetail">
+              <MappingFragment StoreEntitySet="ProductDetail">
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="IdDetail" ColumnName="IdDetail" />
+                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductMaterial">
+            <EntityTypeMapping TypeName="UchebkaModel.ProductMaterial">
+              <MappingFragment StoreEntitySet="ProductMaterial">
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="MaterialArticle" ColumnName="MaterialArticle" />
+                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="UchebkaModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Size">
+            <EntityTypeMapping TypeName="UchebkaModel.Size">
+              <MappingFragment StoreEntitySet="Size">
+                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
+                <ScalarProperty Name="IdUnit" ColumnName="IdUnit" />
+                <ScalarProperty Name="SizeValue" ColumnName="SizeValue" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Standart">
+            <EntityTypeMapping TypeName="UchebkaModel.Standart">
+              <MappingFragment StoreEntitySet="Standart">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="UchebkaModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supplier">
+            <EntityTypeMapping TypeName="UchebkaModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="DeliveryTime" ColumnName="DeliveryTime" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="UchebkaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeComponents">
+            <EntityTypeMapping TypeName="UchebkaModel.TypeComponents">
+              <MappingFragment StoreEntitySet="TypeComponents">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeEquipment">
+            <EntityTypeMapping TypeName="UchebkaModel.TypeEquipment">
+              <MappingFragment StoreEntitySet="TypeEquipment">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IdTypeEquipment" ColumnName="IdTypeEquipment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeMaterial">
+            <EntityTypeMapping TypeName="UchebkaModel.TypeMaterial">
+              <MappingFragment StoreEntitySet="TypeMaterial">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Unit">
+            <EntityTypeMapping TypeName="UchebkaModel.Unit">
+              <MappingFragment StoreEntitySet="Unit">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="UchebkaModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Education" ColumnName="Education" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="DateBithday" ColumnName="DateBithday" />
+                <ScalarProperty Name="IdUserImage" ColumnName="IdUserImage" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserImage">
+            <EntityTypeMapping TypeName="UchebkaModel.UserImage">
+              <MappingFragment StoreEntitySet="UserImage">
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserOperation">
+            <EntityTypeMapping TypeName="UchebkaModel.UserOperation">
+              <MappingFragment StoreEntitySet="UserOperation">
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="IdOperation" ColumnName="IdOperation" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Warehouse">
+            <EntityTypeMapping TypeName="UchebkaModel.Warehouse">
+              <MappingFragment StoreEntitySet="Warehouse">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="UchebkaModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="IdStatus" ColumnName="IdStatus" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="LoginManager" ColumnName="LoginManager" />
+                <ScalarProperty Name="LoginCustomer" ColumnName="LoginCustomer" />
+                <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateOrder" ColumnName="DateOrder" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocOrder">
+            <EntityTypeMapping TypeName="UchebkaModel.DocOrder">
+              <MappingFragment StoreEntitySet="DocOrder">
+                <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoryStatus">
+            <EntityTypeMapping TypeName="UchebkaModel.HistoryStatus">
+              <MappingFragment StoreEntitySet="HistoryStatus">
+                <ScalarProperty Name="IdStatus" ColumnName="IdStatus" />
+                <ScalarProperty Name="IdOrder" ColumnName="IdOrder" />
+                <ScalarProperty Name="TimeOrder" ColumnName="TimeOrder" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BreakdownEq">
+            <EntityTypeMapping TypeName="UchebkaModel.BreakdownEq">
+              <MappingFragment StoreEntitySet="BreakdownEq">
+                <ScalarProperty Name="IdReason" ColumnName="IdReason" />
+                <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
+                <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
+                <ScalarProperty Name="IdEquipment" ColumnName="IdEquipment" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReasonBreakdown">
+            <EntityTypeMapping TypeName="UchebkaModel.ReasonBreakdown">
+              <MappingFragment StoreEntitySet="ReasonBreakdown">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

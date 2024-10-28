@@ -1,0 +1,49 @@
+﻿<Page x:Class="Uchebka.Pages.OrdersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Uchebka.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="650" d:DesignWidth="800"
+      Title="OrdersPage">
+
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock>Фильтрация по статусу</TextBlock>
+                <ComboBox Width="200" x:Name="StatusCbx" SelectionChanged="StatusCbx_SelectionChanged">
+                    <ComboBoxItem>Новые заказы</ComboBoxItem>
+                    <ComboBoxItem>Выполненные заказы</ComboBoxItem>
+                    <ComboBoxItem>Текущие заказы</ComboBoxItem>
+                    <ComboBoxItem>Отклоненные заказы</ComboBoxItem>
+                    <ComboBoxItem>Все</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <ListView Height="500" x:Name="OrdersLV">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="№ заказа"></GridViewColumn>
+                            <GridViewColumn Header="Дата"></GridViewColumn>
+                            <GridViewColumn Header="Наименование"></GridViewColumn>
+                            <GridViewColumn Header="Статус"></GridViewColumn>
+                            <GridViewColumn Header="Стоимость"></GridViewColumn>
+                            <GridViewColumn Header="Заказчик"></GridViewColumn>
+                            <GridViewColumn Header="Дата выполнения"></GridViewColumn>
+                            <GridViewColumn Header="Ответственный менеджер"></GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Button Width="150" x:Name="AddButt" Click="AddButt_Click">Добавить</Button>
+                <Button Width="150" x:Name="DeleteButt" Click="DeleteButt_Click">Удалить</Button>
+                <Button Width="150" x:Name="CancelButt" Click="CancelButt_Click">Отменить</Button>
+                <Button Width="150" x:Name="AcceptButt" Click="AcceptButt_Click">Принять</Button>
+                <Button Width="150" x:Name="RedactButt" Click="RedactButt_Click">Редактировать</Button>
+                <Button Width="150" x:Name="BackButt">Вернуться</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -18,12 +18,12 @@ namespace Uchebka.Components
         public Product()
         {
             this.OperationSpecification = new HashSet<OperationSpecification>();
-            this.Order = new HashSet<Order>();
             this.ProductComponents = new HashSet<ProductComponents>();
             this.ProductDetail = new HashSet<ProductDetail>();
             this.ProductDetail1 = new HashSet<ProductDetail>();
             this.ProductMaterial = new HashSet<ProductMaterial>();
             this.Size = new HashSet<Size>();
+            this.Order = new HashSet<Order>();
         }
     
         public int Id { get; set; }
@@ -31,8 +31,6 @@ namespace Uchebka.Components
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OperationSpecification> OperationSpecification { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductComponents> ProductComponents { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -43,5 +41,7 @@ namespace Uchebka.Components
         public virtual ICollection<ProductMaterial> ProductMaterial { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Size> Size { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

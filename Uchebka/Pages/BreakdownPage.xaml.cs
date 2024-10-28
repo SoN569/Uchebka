@@ -12,25 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Uchebka.Pages;
 
-namespace Uchebka
+namespace Uchebka.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для BreakdownPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class BreakdownPage : Page
     {
-        public MainWindow()
+        public BreakdownPage()
         {
             InitializeComponent();
-            MainFrame.NavigationService.Navigate(new AuthPage());
-        }
-
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
-        {
-            App.user = null;
-            MainFrame.NavigationService.Navigate(new AuthPage());
         }
     }
 }

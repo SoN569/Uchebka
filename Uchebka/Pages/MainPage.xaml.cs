@@ -62,7 +62,12 @@ namespace Uchebka.Pages
 
         private void ComponentsListButt_Click(object sender, RoutedEventArgs e)
         {
+            NavigationService.Navigate(new ComponentPage());
+        }
 
+        private void OrdersListButt_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new OrdersPage());
         }
     }
 }

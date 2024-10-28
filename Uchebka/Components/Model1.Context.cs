@@ -13,10 +13,10 @@ namespace Uchebka.Components
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class UchebkaEntities : DbContext
+    public partial class UchebkaEntities2 : DbContext
     {
-        public UchebkaEntities()
-            : base("name=UchebkaEntities")
+        public UchebkaEntities2()
+            : base("name=UchebkaEntities2")
         {
         }
     
@@ -25,13 +25,11 @@ namespace Uchebka.Components
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ComponentsImage> ComponentsImage { get; set; }
-        public virtual DbSet<Document> Document { get; set; }
+        public virtual DbSet<Components> Components { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
-        public virtual DbSet<MaterialImage> MaterialImage { get; set; }
+        public virtual DbSet<Material> Material { get; set; }
         public virtual DbSet<Operation> Operation { get; set; }
         public virtual DbSet<OperationSpecification> OperationSpecification { get; set; }
-        public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductComponents> ProductComponents { get; set; }
         public virtual DbSet<ProductDetail> ProductDetail { get; set; }
@@ -39,6 +37,7 @@ namespace Uchebka.Components
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Size> Size { get; set; }
         public virtual DbSet<Standart> Standart { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Supplier> Supplier { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TypeComponents> TypeComponents { get; set; }
@@ -49,7 +48,10 @@ namespace Uchebka.Components
         public virtual DbSet<UserImage> UserImage { get; set; }
         public virtual DbSet<UserOperation> UserOperation { get; set; }
         public virtual DbSet<Warehouse> Warehouse { get; set; }
-        public virtual DbSet<Components> Components { get; set; }
-        public virtual DbSet<Material> Material { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<DocOrder> DocOrder { get; set; }
+        public virtual DbSet<HistoryStatus> HistoryStatus { get; set; }
+        public virtual DbSet<BreakdownEq> BreakdownEq { get; set; }
+        public virtual DbSet<ReasonBreakdown> ReasonBreakdown { get; set; }
     }
 }

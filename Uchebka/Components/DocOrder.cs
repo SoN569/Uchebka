@@ -12,18 +12,12 @@ namespace Uchebka.Components
     using System;
     using System.Collections.Generic;
     
-    public partial class MaterialImage
+    public partial class DocOrder
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public MaterialImage()
-        {
-            this.Material = new HashSet<Material>();
-        }
-    
         public int Id { get; set; }
         public byte[] Photo { get; set; }
+        public string IdOrder { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Material> Material { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

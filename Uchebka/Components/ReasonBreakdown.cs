@@ -12,18 +12,18 @@ namespace Uchebka.Components
     using System;
     using System.Collections.Generic;
     
-    public partial class ComponentsImage
+    public partial class ReasonBreakdown
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ComponentsImage()
+        public ReasonBreakdown()
         {
-            this.Components = new HashSet<Components>();
+            this.BreakdownEq = new HashSet<BreakdownEq>();
         }
     
         public int Id { get; set; }
-        public byte[] Photo { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Components> Components { get; set; }
+        public virtual ICollection<BreakdownEq> BreakdownEq { get; set; }
     }
 }

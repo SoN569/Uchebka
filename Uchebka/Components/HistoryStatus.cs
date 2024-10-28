@@ -12,14 +12,14 @@ namespace Uchebka.Components
     using System;
     using System.Collections.Generic;
     
-    public partial class ProductMaterial
+    public partial class HistoryStatus
     {
         public int Id { get; set; }
-        public Nullable<int> IdProduct { get; set; }
-        public string MaterialArticle { get; set; }
-        public decimal Count { get; set; }
+        public Nullable<System.TimeSpan> TimeOrder { get; set; }
+        public string IdOrder { get; set; }
+        public Nullable<int> IdStatus { get; set; }
     
-        public virtual Material Material { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual Order Order { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

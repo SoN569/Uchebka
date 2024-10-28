@@ -18,6 +18,7 @@ namespace Uchebka.Components
         public Supplier()
         {
             this.Components = new HashSet<Components>();
+            this.Material = new HashSet<Material>();
         }
     
         public string SupplierName { get; set; }
@@ -26,5 +27,7 @@ namespace Uchebka.Components
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Components> Components { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Material> Material { get; set; }
     }
 }

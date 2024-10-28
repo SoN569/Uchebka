@@ -11,7 +11,7 @@ namespace Uchebka
 {
     public partial class App : Application
     {
-        public static UchebkaEntities db = new UchebkaEntities();
+        public static UchebkaEntities2 db = new UchebkaEntities2();
         public static User user;
     }
 }

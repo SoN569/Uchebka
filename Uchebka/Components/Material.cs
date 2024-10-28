@@ -25,7 +25,7 @@ namespace Uchebka.Components
         public Nullable<int> IdUnit { get; set; }
         public Nullable<int> Count { get; set; }
         public string SupplierName { get; set; }
-        public Nullable<int> IdMaterialImage { get; set; }
+        public byte[] MatImage { get; set; }
         public Nullable<int> IdTypeMaterial { get; set; }
         public Nullable<decimal> PriceOneKg { get; set; }
         public Nullable<int> IdStandart { get; set; }
@@ -33,8 +33,8 @@ namespace Uchebka.Components
         public Nullable<decimal> MassOneMetr { get; set; }
         public Nullable<int> IdWarehouse { get; set; }
     
-        public virtual MaterialImage MaterialImage { get; set; }
         public virtual Standart Standart { get; set; }
+        public virtual Supplier Supplier { get; set; }
         public virtual TypeMaterial TypeMaterial { get; set; }
         public virtual Unit Unit { get; set; }
         public virtual Warehouse Warehouse { get; set; }

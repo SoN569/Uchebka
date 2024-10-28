@@ -19,7 +19,7 @@ namespace Uchebka.Components
         public string AccessoriesArticle { get; set; }
         public decimal Count { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual Components Components { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

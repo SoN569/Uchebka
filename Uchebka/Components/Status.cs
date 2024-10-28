@@ -12,13 +12,21 @@ namespace Uchebka.Components
     using System;
     using System.Collections.Generic;
     
-    public partial class Document
+    public partial class Status
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Status()
+        {
+            this.Order = new HashSet<Order>();
+            this.HistoryStatus = new HashSet<HistoryStatus>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Format { get; set; }
-        public Nullable<int> IdOrder { get; set; }
     
-        public virtual Order Order { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Order { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistoryStatus> HistoryStatus { get; set; }
     }
 }

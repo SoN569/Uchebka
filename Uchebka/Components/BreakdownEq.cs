@@ -12,14 +12,15 @@ namespace Uchebka.Components
     using System;
     using System.Collections.Generic;
     
-    public partial class ProductMaterial
+    public partial class BreakdownEq
     {
         public int Id { get; set; }
-        public Nullable<int> IdProduct { get; set; }
-        public string MaterialArticle { get; set; }
-        public decimal Count { get; set; }
+        public string IdEquipment { get; set; }
+        public Nullable<System.DateTime> TimeStart { get; set; }
+        public Nullable<System.DateTime> TimeEnd { get; set; }
+        public Nullable<int> IdReason { get; set; }
     
-        public virtual Material Material { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual Equipment Equipment { get; set; }
+        public virtual ReasonBreakdown ReasonBreakdown { get; set; }
     }
 }

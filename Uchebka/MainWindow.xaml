@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Uchebka"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="1300">
+        Title="MainWindow" Height="850" Width="1400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -16,7 +16,7 @@
             <TextBlock></TextBlock>
             
         </StackPanel>
-        <Button Margin="30" Grid.Row="0" HorizontalAlignment="Right" Height="40">Выход</Button>
+        <Button Margin="30" Grid.Row="0" HorizontalAlignment="Right" Height="40" x:Name="Exit" Click="ExitButton_Click">Выход</Button>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="1"></Frame>
     </Grid>
 </Window>
