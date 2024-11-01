@@ -88,6 +88,15 @@
     <Compile Include="Components\HistoryStatus.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Components\Item.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Location.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Components\LocationItem.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Components\Material.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -115,6 +124,7 @@
     <Compile Include="Components\Order.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Components\PartialClass\Order.cs" />
     <Compile Include="Components\PartialClass\User.cs" />
     <Compile Include="Components\Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -126,6 +136,12 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Components\ProductMaterial.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Quality.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Components\QualityParametr.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Components\ReasonBreakdown.cs">
@@ -189,6 +205,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\EditBreakdownPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\EditComponentPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -198,6 +218,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\EditOrdersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditQualityPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -221,6 +245,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\QualityPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\RegPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -236,6 +264,9 @@
     <Compile Include="Pages\ComponentPage.xaml.cs">
       <DependentUpon>ComponentPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\EditBreakdownPage.xaml.cs">
+      <DependentUpon>EditBreakdownPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\EditComponentPage.xaml.cs">
       <DependentUpon>EditComponentPage.xaml</DependentUpon>
     </Compile>
@@ -244,6 +275,9 @@
     </Compile>
     <Compile Include="Pages\EditOrdersPage.xaml.cs">
       <DependentUpon>EditOrdersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditQualityPage.xaml.cs">
+      <DependentUpon>EditQualityPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\EmployeeListPage.xaml.cs">
       <DependentUpon>EmployeeListPage.xaml</DependentUpon>
@@ -259,6 +293,9 @@
     </Compile>
     <Compile Include="Pages\OrdersPage.xaml.cs">
       <DependentUpon>OrdersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\QualityPage.xaml.cs">
+      <DependentUpon>QualityPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\RegPage.xaml.cs">
       <DependentUpon>RegPage.xaml</DependentUpon>
@@ -313,6 +350,15 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\FireExtinguisher.png" />
+    <Resource Include="Resources\Exit.jpg" />
+    <Resource Include="Resources\Equipment.png" />
+    <Resource Include="Resources\FirstAid.png" />
+    <Resource Include="Resources\Сборочный цех.png" />
+    <Resource Include="Resources\Покрасочный цех.png" />
+    <Resource Include="Resources\Механический цех.png" />
+    <Resource Include="Resources\Заготовительный цех.png" />
+    <Resource Include="Resources\Упаковочный цех.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,38 @@
+﻿<Page x:Class="Uchebka.Pages.EditQualityPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Uchebka.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EditQualityPage">
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock>Номер заказа</TextBlock>
+                <ComboBox Margin="5" Width="300" x:Name="OrderCbx"></ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock>Параметр</TextBlock>
+                <ComboBox Margin="5" Width="300" x:Name="ParametrCbx"></ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock>Оценка</TextBlock>
+                <ComboBox Margin="5" Width="300" x:Name="ExaminationCbx" SelectionChanged="ExaminationCbx_SelectionChanged">
+                    <ComboBoxItem>-</ComboBoxItem>
+                    <ComboBoxItem>+</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock>Комментарий</TextBlock>
+                <TextBox x:Name="CommentTbx"></TextBox>
+            </StackPanel>
+            <StackPanel Margin="30" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Width="150" x:Name="AddButt" Click="AddButt_Click">Сохранить</Button>
+                <Button Width="150" x:Name="BackButt" Click="BackButt_Click">Вернуться</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

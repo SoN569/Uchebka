@@ -18,7 +18,8 @@ namespace Uchebka.Components
         public string Operation { get; set; }
         public int Number { get; set; }
         public Nullable<int> IdTypeEquipment { get; set; }
-        public Nullable<System.TimeSpan> Duration { get; set; }
+        public Nullable<int> Duration { get; set; }
+        public int Id { get; set; }
     
         public virtual Product Product { get; set; }
         public virtual TypeEquipment TypeEquipment { get; set; }

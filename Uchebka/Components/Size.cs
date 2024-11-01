@@ -18,9 +18,9 @@ namespace Uchebka.Components
         public string Name { get; set; }
         public Nullable<decimal> SizeValue { get; set; }
         public Nullable<int> IdUnit { get; set; }
-        public Nullable<int> IdProduct { get; set; }
+        public string IdOrder { get; set; }
     
-        public virtual Product Product { get; set; }
+        public virtual Order Order { get; set; }
         public virtual Unit Unit { get; set; }
     }
 }

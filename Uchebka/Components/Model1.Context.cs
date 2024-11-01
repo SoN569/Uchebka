@@ -25,15 +25,22 @@ namespace Uchebka.Components
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<BreakdownEq> BreakdownEq { get; set; }
         public virtual DbSet<Components> Components { get; set; }
+        public virtual DbSet<DocOrder> DocOrder { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
+        public virtual DbSet<HistoryStatus> HistoryStatus { get; set; }
         public virtual DbSet<Material> Material { get; set; }
         public virtual DbSet<Operation> Operation { get; set; }
         public virtual DbSet<OperationSpecification> OperationSpecification { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductComponents> ProductComponents { get; set; }
         public virtual DbSet<ProductDetail> ProductDetail { get; set; }
         public virtual DbSet<ProductMaterial> ProductMaterial { get; set; }
+        public virtual DbSet<Quality> Quality { get; set; }
+        public virtual DbSet<QualityParametr> QualityParametr { get; set; }
+        public virtual DbSet<ReasonBreakdown> ReasonBreakdown { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Size> Size { get; set; }
         public virtual DbSet<Standart> Standart { get; set; }
@@ -48,10 +55,8 @@ namespace Uchebka.Components
         public virtual DbSet<UserImage> UserImage { get; set; }
         public virtual DbSet<UserOperation> UserOperation { get; set; }
         public virtual DbSet<Warehouse> Warehouse { get; set; }
-        public virtual DbSet<Order> Order { get; set; }
-        public virtual DbSet<DocOrder> DocOrder { get; set; }
-        public virtual DbSet<HistoryStatus> HistoryStatus { get; set; }
-        public virtual DbSet<BreakdownEq> BreakdownEq { get; set; }
-        public virtual DbSet<ReasonBreakdown> ReasonBreakdown { get; set; }
+        public virtual DbSet<Item> Item { get; set; }
+        public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<LocationItem> LocationItem { get; set; }
     }
 }

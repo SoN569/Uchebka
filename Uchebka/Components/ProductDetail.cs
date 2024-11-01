@@ -17,6 +17,7 @@ namespace Uchebka.Components
         public int IdProduct { get; set; }
         public int IdDetail { get; set; }
         public Nullable<int> Count { get; set; }
+        public int Id { get; set; }
     
         public virtual Product Product { get; set; }
         public virtual Product Product1 { get; set; }

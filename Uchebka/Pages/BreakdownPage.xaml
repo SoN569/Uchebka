@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Uchebka.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="650" d:DesignWidth="800"
       Title="BreakdownPage">
 
     <Grid>
@@ -14,14 +14,19 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Width="200" Header="Оборудование"></GridViewColumn>
-                            <GridViewColumn Width="200" Header="Причина"></GridViewColumn>
-                            <GridViewColumn Width="200" Header="Начало сбоя"></GridViewColumn>
-                            <GridViewColumn Width="200" Header="Конец сбоя"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding IdEquipment}" Width="200" Header="Оборудование"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding ReasonBreakdown.Name}" Width="200" Header="Причина"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding TimeStart}" Width="200" Header="Начало сбоя"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding TimeEnd}" Width="200" Header="Конец сбоя"></GridViewColumn>
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
             </ListView>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Width="160" x:Name="AddButt" Click="AddButt_Click">Добавить сбой</Button>
+                <Button Width="170" x:Name="RedButt" Click="RedButt_Click">Окончание сбоя</Button>
+                <Button Width="160" x:Name="BackButt" Click="BackButt_Click">Вернуться</Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

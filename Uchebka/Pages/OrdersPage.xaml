@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Uchebka.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="650" d:DesignWidth="800"
+      d:DesignHeight="650" d:DesignWidth="900"
       Title="OrdersPage">
 
     <Grid>
@@ -24,14 +24,14 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Header="№ заказа"></GridViewColumn>
-                            <GridViewColumn Header="Дата"></GridViewColumn>
-                            <GridViewColumn Header="Наименование"></GridViewColumn>
-                            <GridViewColumn Header="Статус"></GridViewColumn>
-                            <GridViewColumn Header="Стоимость"></GridViewColumn>
-                            <GridViewColumn Header="Заказчик"></GridViewColumn>
-                            <GridViewColumn Header="Дата выполнения"></GridViewColumn>
-                            <GridViewColumn Header="Ответственный менеджер"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="№ заказа"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding DateOrder, StringFormat=yyyy/MM/dd}" Header="Дата"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Status.Name}" Header="Статус"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Price}" Header="Стоимость"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding User.LastName }" Header="Заказчик"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding DateEnd, StringFormat=yyyy/MM/dd}" Header="Дата выполнения"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding ManagerName}" Header="Ответственный менеджер"></GridViewColumn>
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
@@ -42,7 +42,8 @@
                 <Button Width="150" x:Name="CancelButt" Click="CancelButt_Click">Отменить</Button>
                 <Button Width="150" x:Name="AcceptButt" Click="AcceptButt_Click">Принять</Button>
                 <Button Width="150" x:Name="RedactButt" Click="RedactButt_Click">Редактировать</Button>
-                <Button Width="150" x:Name="BackButt">Вернуться</Button>
+                <Button Width="160" x:Name="StatusButt" Click="StatusButt_Click">Изменить статус</Button>
+                <Button Width="150" x:Name="BackButt" Click="BackButt_Click">Вернуться</Button>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -24,8 +24,8 @@ namespace Uchebka.Components
         public Nullable<int> IdTypeEquipment { get; set; }
         public string Characteristic { get; set; }
     
-        public virtual TypeEquipment TypeEquipment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BreakdownEq> BreakdownEq { get; set; }
+        public virtual TypeEquipment TypeEquipment { get; set; }
     }
 }

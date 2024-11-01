@@ -27,6 +27,8 @@ namespace Uchebka.Pages
             {
                 case 1:
                     RoleTb.Text = "Экран мастера";
+                    BreakdownListButt.Visibility = Visibility.Visible;
+                    QualityButt.Visibility = Visibility.Visible;
                     break;
 
                 case 2:
@@ -68,6 +70,16 @@ namespace Uchebka.Pages
         private void OrdersListButt_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new OrdersPage());
+        }
+
+        private void BreakdownListButt_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new BreakdownPage());
+        }
+
+        private void QualityButt_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new QualityPage());
         }
     }
 }

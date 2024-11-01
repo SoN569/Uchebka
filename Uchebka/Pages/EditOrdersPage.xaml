@@ -48,23 +48,23 @@
                 <TextBox x:Name="SizeNameTbx"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock>Размер</TextBlock>
+                <TextBlock>Значение</TextBlock>
                 <TextBox x:Name="SizeValueTbx"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock>Ед. измерения</TextBlock>
                 <ComboBox x:Name="UnitCbx" Margin="5" Width="70"></ComboBox>
-                <Button Width="105" x:Name="AddSizeButt">Добавить</Button>
-                <Button Width="105" x:Name="DelSizeButt">Удалить</Button>
+                <Button Width="105" x:Name="AddSizeButt" Click="AddSizeButt_Click">Добавить</Button>
+                <Button Width="105" x:Name="DelSizeButt" Click="DelSizeButt_Click">Удалить</Button>
             </StackPanel>
 
             <ListView x:Name="SizeLV" Height="80">
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Header="Название"></GridViewColumn>
-                            <GridViewColumn Header="Значение"></GridViewColumn>
-                            <GridViewColumn Header="Ед.измерения"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Название"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding SizeValue}" Header="Значение"></GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Unit.Name}" Header="Ед.измерения"></GridViewColumn>
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
@@ -76,6 +76,10 @@
             <TextBlock HorizontalAlignment="Center">Схемы, чертежи</TextBlock>
             <StackPanel  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button x:Name="ImageButt" Click="ImageButt_Click">Выбрать фото</Button>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="BeforeButt">Пред.</Button>
+                    <Button x:Name="AfterButt" Click="AfterButt_Click">След.</Button>
+                </StackPanel>
                 <Image x:Name="DocImg" Height="250" Width="350"></Image>
                 <Button x:Name="DeleteImgButt" Click="DeleteImgButt_Click">Удалить фото</Button>
             </StackPanel>

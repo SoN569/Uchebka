@@ -12,21 +12,15 @@ namespace Uchebka.Components
     using System;
     using System.Collections.Generic;
     
-    public partial class Status
+    public partial class LocationItem
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Status()
-        {
-            this.HistoryStatus = new HashSet<HistoryStatus>();
-            this.Order = new HashSet<Order>();
-        }
-    
         public int Id { get; set; }
-        public string Name { get; set; }
+        public Nullable<int> IdLoc { get; set; }
+        public Nullable<int> IdItem { get; set; }
+        public Nullable<decimal> Xaxis { get; set; }
+        public Nullable<decimal> Yaxis { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HistoryStatus> HistoryStatus { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual Item Item { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

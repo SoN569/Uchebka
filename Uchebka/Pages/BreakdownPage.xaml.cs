@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Uchebka.Components;
 
 namespace Uchebka.Pages
 {
@@ -23,6 +24,33 @@ namespace Uchebka.Pages
         public BreakdownPage()
         {
             InitializeComponent();
+            BreakdownLV.ItemsSource = App.db.BreakdownEq.ToList();
+        }
+
+        private void AddButt_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new EditBreakdownPage(new Components.BreakdownEq()));
+        }
+
+        private void RedButt_Click(object sender, RoutedEventArgs e)
+        {
+            if (BreakdownLV.SelectedItem != null)
+            {
+                BreakdownEq breakdown = BreakdownLV.SelectedItem as BreakdownEq;
+                if (breakdown.TimeEnd == null)
+                {
+                    breakdown.TimeEnd = DateTime.Now;
+                    App.db.SaveChanges();
+                    NavigationService.Navigate(new BreakdownPage());
+                }
+                else MessageBox.Show("Сбой уже имеет конечное время!", "Ошибка редактирования");
+            }
+            else MessageBox.Show("Не выбран сбой для редактирования!", "Ошибка редактирования");
+        }
+
+        private void BackButt_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new MainPage());
         }
     }
 }
